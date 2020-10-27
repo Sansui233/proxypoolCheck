@@ -13,14 +13,14 @@ Choose either.
 
 ### 1. Using release version
 
-Download from [releases](https://github.com/Sansui233/proxypoolChecker/releases)
+Download from [releases](https://github.com/Sansui233/proxypoolCheck/releases)
 
-Put config.yaml in to directory and run. You can use -c to specify configuration path.
+Put config.yaml into directory and run. You can use -c to specify configuration path.
 
 ```shell
-./proxypoolChecker
+./proxypoolCheck
 # or
-./proxypoolChecker -c PathToConfig
+./proxypoolCheck -c PathToConfig
 ```
 
 ### 2. Compile Source
@@ -37,7 +37,7 @@ $ go run main.go -c ./config/config.yaml
 
 ## Usage
 
-Set you `config.yaml` and run. It will tell you where to check result.
+Set your `config.yaml` and run. It will tell you where to check result.
 
 Default: http://127.0.0.1:8080
 
