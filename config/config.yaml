@@ -1,0 +1,7 @@
+# Proxypool remote server url. Blank for http://127.0.0.1:8080
+server_url: https://example.proxypoolserver.com
+
+# For your local server
+request: http   # http / https
+domain:         # default: 127.0.0.1
+port:           # default: 8080
