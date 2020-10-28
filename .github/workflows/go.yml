@@ -1,7 +1,52 @@
 name: Go
 on: [push, pull_request]
 jobs:
+
   build:
-      name: Build
-      runs-on: ubuntu-latest
-      steps:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Go environment
+        uses: actions/setup-go@v2.1.3
+        with:
+          go-version: 1.15.x
+
+      - name: Checkout Code
+        uses: actions/checkout@v2.3.3
+
+      - name: Cache go module
+        uses: actions/cache@v2
+        with:
+          path: ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+
+      - name: Get dependencies and run test
+        run: |
+          go test ./...
+
+      - name: Build
+        if: startsWith(github.ref, 'refs/tags/')
+        env:
+          NAME: proxypool
+          BINDIR: bin
+        run: make -j releases
+
+      - name: Release
+        uses: softprops/action-gh-release@v0.1.5
+        if: startsWith(github.ref, 'refs/tags/')
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          files: bin/*
+          draft: true
+          prerelease: true
+          body: "Place config.yaml in work dir and run with `-c config.yaml`"
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2.2.0
+        if: startsWith(github.ref, 'refs/tags/')
+        with: 
+          name: build
+          path: bin
