@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <!-- This line is for local test-->
+    <!-- <link rel="stylesheet" type="text/css" href="../css/index.css"> -->
+    <link rel="stylesheet" type="text/css" href="/css/index.css">
+    <title>免费Surge节点</title>
+</head>
+
+<body>
+    <div class="topbar">
+        <h1><strong>Free Proxies</strong></h1>
+        <p class="descri">自动抓取tg频道、订阅地址、公开互联网上的ss、ssr、vmess、trojan节点信息，聚合去重后提供节点列表</p>
+    </div>
+    <div class="section">
+        <h2><a class="green" href="/surge">Surge</a></h2>
+        <ul>
+            <li>Surge配置文件：{{ .request }}://{{ .domain }}:{{ .port }}/surge/config <a class="green" href="surge3:///install-config?url=https://{{ .domain }}:{{ .port }}/surge/config">一键导入</a></li>
+            <li>Surge proxy list：{{ .request }}://{{ .domain }}:{{ .port }}/surge/proxies</li>
+        </ul>
+    </div>
+    <div class="section">
+        <p>欢迎关注tg频道：<a href="https://t.me/peekfun">@peekfun</a></p>
+        <p>抓取程序已开源：<a href="https://github.com/zu1k/proxypool">https://github.com/zu1k/proxypool</a> {{ .version }}</p>
+    </div>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DC6CR61FHE"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-DC6CR61FHE');
+    </script>
+    <script type="text/javascript">
+    window.$crisp = [];
+    window.CRISP_WEBSITE_ID = "20c01dac-ba36-433b-9863-e4c3fc2017a8";
+    (function() { d = document;
+        s = d.createElement("script");
+        s.src = "https://client.crisp.chat/l.js";
+        s.async = 1;
+        d.getElementsByTagName("head")[0].appendChild(s); })();
+    </script>
+</body>
+
+</html>

@@ -4,14 +4,12 @@ import (
 	"github.com/Sansui233/proxypool/pkg/provider"
 	"github.com/Sansui233/proxypoolCheck/config"
 	appcache "github.com/Sansui233/proxypoolCheck/internal/cache"
-	"github.com/gin-contrib/cache"
-	"github.com/gin-contrib/cache/persistence"
 	"github.com/gin-gonic/gin"
 	"html/template"
+	"io/ioutil"
 	"log"
 	"net/http"
-	"strings"
-	"time"
+	"os"
 )
 
 const version = "v0.3.11"
@@ -20,21 +18,17 @@ var router *gin.Engine
 
 func setupRouter(){
 	gin.SetMode(gin.ReleaseMode)
-	router = gin.New() // 没有任何中间件的路由
-	store := persistence.NewInMemoryStore(time.Minute)
-	router.Use(gin.Recovery(), cache.SiteCache(store, time.Minute))
-
-	_ = RestoreAssets("", "assets/html")
-	_ = RestoreAssets("", "assets/css")
-
-	temp, err := loadHTMLTemplate()
+	router = gin.New()          // 没有任何中间件的路由
+	router.Use(gin.Recovery())  // 加上处理panic的中间件，防止遇到panic退出程序
+	temp, err := loadHTMLTemplate() // 加载模板，模板源存放于html.go中的类似_assetsHtmlSurgeHtml的变量
 	if err != nil {
 		panic(err)
 	}
-	router.SetHTMLTemplate(temp)
+	router.SetHTMLTemplate(temp) // 应用模板
+
 	router.StaticFile("/css/index.css", "assets/css/index.css")
 	router.GET("/", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "assets/html/index.html", gin.H{
+		c.HTML(http.StatusOK, "index.html", gin.H{
 			"domain":               config.Config.Domain,
 			"request":              config.Config.Request,
 			"port":                 config.Config.Port,
@@ -49,7 +43,7 @@ func setupRouter(){
 		})
 	})
 	router.GET("/clash", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "assets/html/clash.html", gin.H{
+		c.HTML(http.StatusOK, "clash.html", gin.H{
 			"domain": config.Config.Domain,
 			"port": config.Config.Port,
 			"request": config.Config.Request,
@@ -57,7 +51,7 @@ func setupRouter(){
 	})
 
 	router.GET("/surge", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "assets/html/surge.html", gin.H{
+		c.HTML(http.StatusOK, "surge.html", gin.H{
 			"domain": config.Config.Domain,
 			"request": config.Config.Request,
 			"port": config.Config.Port,
@@ -65,14 +59,14 @@ func setupRouter(){
 	})
 
 	router.GET("/clash/config", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "assets/html/clash-config.yaml", gin.H{
+		c.HTML(http.StatusOK, "clash-config.yaml", gin.H{
 			"domain": config.Config.Domain,
 			"request": config.Config.Request,
 			"port": config.Config.Port,
 		})
 	})
 	router.GET("/clash/localconfig", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "assets/html/clash-config-local.yaml", gin.H{
+		c.HTML(http.StatusOK, "clash-config-local.yaml", gin.H{
 			"port": config.Config.Port,
 		})
 	})
@@ -155,16 +149,32 @@ func Run() {
 
 // 返回页面templates
 func loadHTMLTemplate() (t *template.Template, err error) {
-	t = template.New("")
-	for _, fileName := range AssetNames() { //fileName带有路径前缀
-		if strings.Contains(fileName, "css") {
-			continue
-		}
-		data := MustAsset(fileName)          //读取页面数据
-		t, err = t.New(fileName).Parse(string(data)) //生成带路径名称的模板
+	/* 使用本地模板文件 */
+	filePaths, err := GetAllFilePaths("assets" + string(os.PathSeparator) + "html")
+	if err != nil {
+		log.Fatal("[router.go] Fail to load web templates: ", err)
+		return nil, err;
+	}
+	for _, filePath := range filePaths {
+		t, _ = t.ParseFiles(filePath) // Parsefile后的模板无路径前缀
 		if err != nil {
-			return nil, err
+			log.Panic("[router.go] ", err)
 		}
 	}
 	return t, nil
+}
+
+// unix directory format
+// TODO: This function shouldn't be here
+func GetAllFilePaths(pathname string) (filenames []string,err error) {
+	rd, err := ioutil.ReadDir(pathname)
+	for _, fi := range rd {
+		if fi.IsDir() {
+			GetAllFilePaths(pathname + string(os.PathSeparator) + fi.Name())
+		} else {
+			filename := pathname + string(os.PathSeparator) + fi.Name()
+			filenames = append(filenames, filename)
+		}
+	}
+	return filenames,err
 }
