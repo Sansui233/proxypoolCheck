@@ -1,5 +1,6 @@
-package app
+package api
 
+import "C"
 import (
 	"github.com/Sansui233/proxypool/pkg/provider"
 	"github.com/Sansui233/proxypoolCheck/config"
@@ -10,11 +11,13 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"os"
+	"strconv"
 	"strings"
 	"time"
 )
 
-const version = "v0.3.11"
+const version = "v0.4.0"
 
 var router *gin.Engine
 
@@ -80,19 +83,36 @@ func setupRouter(){
 		proxyTypes := c.DefaultQuery("type", "")
 		proxyCountry := c.DefaultQuery("c", "")
 		proxyNotCountry := c.DefaultQuery("nc", "")
+		proxySpeed, err := strconv.ParseFloat(c.DefaultQuery("speed", "0"), 64)
+		if err != nil {
+			log.Println("[router.go]", err)
+			proxySpeed = 0
+		}
 		text := ""
-		if proxyTypes == "" && proxyCountry == "" && proxyNotCountry == "" {
-			text = appcache.GetString("clashproxies")
+		if proxyTypes == "" && proxyCountry == "" && proxyNotCountry == "" && proxySpeed == 0 {
+			text = appcache.GetString("clashproxies") // A string. To show speed in this if condition, this must be updated after speedtest
 			if text == "" {
 				proxies := appcache.GetProxies("proxies")
 				clash := provider.Clash{
-					provider.Base{
+					Base: provider.Base{
 						Proxies: &proxies,
 					},
 				}
 				text = clash.Provide() // 根据Query筛选节点
 				appcache.SetString("clashproxies", text)
 			}
+		} else if proxyTypes == "all" {
+			proxies := appcache.GetProxies("allproxies")
+			clash := provider.Clash{
+				provider.Base{
+					Proxies:    &proxies,
+					Types:      proxyTypes,
+					Country:    proxyCountry,
+					NotCountry: proxyNotCountry,
+					Speed:      proxySpeed,
+				},
+			}
+			text = clash.Provide() // 根据Query筛选节点
 		} else {
 			proxies := appcache.GetProxies("proxies")
 			clash := provider.Clash{
@@ -101,6 +121,7 @@ func setupRouter(){
 					Types:      proxyTypes,
 					Country:    proxyCountry,
 					NotCountry: proxyNotCountry,
+					Speed:      proxySpeed,
 				},
 			}
 			text = clash.Provide() // 根据Query筛选节点
@@ -111,9 +132,14 @@ func setupRouter(){
 		proxyTypes := c.DefaultQuery("type", "")
 		proxyCountry := c.DefaultQuery("c", "")
 		proxyNotCountry := c.DefaultQuery("nc", "")
+		proxySpeed, err := strconv.ParseFloat(c.DefaultQuery("speed", "0"), 64)
+		if err != nil {
+			log.Println("[router.go]", err)
+			proxySpeed = 0
+		}
 		text := ""
-		if proxyTypes == "" && proxyCountry == "" && proxyNotCountry == "" {
-			text = appcache.GetString("surgeproxies")
+		if proxyTypes == "" && proxyCountry == "" && proxyNotCountry == "" && proxySpeed == 0 {
+			text = appcache.GetString("surgeproxies") // A string. To show speed in this if condition, this must be updated after speedtest
 			if text == "" {
 				proxies := appcache.GetProxies("proxies")
 				surge := provider.Surge{
@@ -124,6 +150,18 @@ func setupRouter(){
 				text = surge.Provide()
 				appcache.SetString("surgeproxies", text)
 			}
+		} else if proxyTypes == "all" {
+			proxies := appcache.GetProxies("allproxies")
+			surge := provider.Surge{
+				provider.Base{
+					Proxies:    &proxies,
+					Types:      proxyTypes,
+					Country:    proxyCountry,
+					NotCountry: proxyNotCountry,
+					Speed:      proxySpeed,
+				},
+			}
+			text = surge.Provide()
 		} else {
 			proxies := appcache.GetProxies("proxies")
 			surge := provider.Surge{
@@ -142,14 +180,15 @@ func setupRouter(){
 
 func Run() {
 	setupRouter()
-	port := config.Config.Port
-	if port == "" {
-		port = "8080"
+	servePort := config.Config.Port
+	envp := os.Getenv("PORT") // envp for heroku. DO NOT SET ENV PORT IN PERSONAL SERVER UNLESS YOU KNOW WHAT YOU ARE DOING
+	if envp != "" {
+		servePort = envp
 	}
 	// Run on this server
-	err := router.Run(":" + port)
+	err := router.Run(":" + servePort)
 	if err != nil {
-		log.Fatal(err, "\n[router.go] Web server starting failed. Exit")
+		log.Fatal("[router.go] Remote server starting failed")
 	}
 }
 
@@ -160,7 +199,7 @@ func loadHTMLTemplate() (t *template.Template, err error) {
 		if strings.Contains(fileName, "css") {
 			continue
 		}
-		data := MustAsset(fileName)          //读取页面数据
+		data := MustAsset(fileName)                  //读取页面数据
 		t, err = t.New(fileName).Parse(string(data)) //生成带路径名称的模板
 		if err != nil {
 			return nil, err

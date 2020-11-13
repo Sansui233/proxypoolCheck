@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"github.com/Sansui233/proxypoolCheck/api"
 	"github.com/Sansui233/proxypoolCheck/config"
 	"github.com/Sansui233/proxypoolCheck/internal/app"
 	"github.com/Sansui233/proxypoolCheck/internal/cron"
@@ -31,7 +32,7 @@ func main()  {
 	go app.InitApp()
 	go cron.Cron()
 	// Run
-	app.Run()
+	api.Run()
 
 
 }

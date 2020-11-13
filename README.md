@@ -2,16 +2,16 @@
 
 ## Info
 
-This is node health check and provider part of proxypool. You should have had a
+This is proxy health check and provider part of proxypool. You should have had a
 [proxypool](https://github.com/sansui233/proxypool) server available at first.
 
 Due to the poor availability of proceeding node health check on servers overseas, The best usage of this project is to run on your own server within Mainland China.
 
-## Install
+## Install&Run
 
 Choose either.
 
-### 1. Using release version
+### 1. Use release version
 
 Download from [releases](https://github.com/Sansui233/proxypoolCheck/releases)
 
@@ -35,11 +35,29 @@ And run
 $ go run main.go -c ./config/config.yaml
 ```
 
-## Usage
+## Configuration
 
-Set your `config.yaml` and run. It will tell you where to check result.
+Basic configuration.
 
-Default: http://127.0.0.1:8080
+```yaml
+# proxypool remote server url. Blank for http://127.0.0.1:8080
+server_url: https://example.proxypoolserver.com
+# server_url: https://example.proxypoolserver.com/clash/proxies?type-vmess
+
+# For your local server
+request: http   # http / https
+domain:         # default: 127.0.0.1
+port:           # default: 80
+
+speedtest:      # default false
+connection:     # default 20
+```
+
+If your web server port is not the same as proxypoolCheck serving port, you should put web server port in configuration, and set an environment variable `PORT` for proxypoolCheck to serve. This will be really helpful when you are doing frp.
+
+```
+export PORT=ppcheckport
+```
 
 ## 声明
 

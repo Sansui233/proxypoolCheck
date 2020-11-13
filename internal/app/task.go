@@ -28,10 +28,6 @@ func InitApp() error{
 	}
 	cache.AllProxiesCount = len(proxies)
 
-	log.Println("Now proceeding health check...")
-	proxies = healthcheck.CleanBadProxiesWithGrpool(proxies)
-	log.Println("Usable node count: ", len(proxies))
-
 	// set cache variables
 	cache.UsableProxiesCount = len(proxies)
 	cache.SSProxiesCount = proxies.TypeLen("ss")
@@ -40,8 +36,17 @@ func InitApp() error{
 	cache.TrojanProxiesCount = proxies.TypeLen("trojan")
 	cache.LastCrawlTime = fmt.Sprint(time.Now().In(location).Format("2006-01-02 15:04:05"))
 
+	log.Println("Number of proxies:", cache.AllProxiesCount)
+	log.Println("Now proceeding health check...")
+	proxies = healthcheck.CleanBadProxiesWithGrpool(proxies)
+	log.Println("Usable proxy count: ", len(proxies))
 	// Save to app cache
 	cache.SetProxies("proxies", proxies)
+
+	// speedtest
+	if config.Config.SpeedTest == true{
+		healthcheck.SpeedTests(proxies, config.Config.Connection)
+	}
 	cache.SetString("clashproxies", provider.Clash{
 		provider.Base{
 			Proxies: &proxies,
@@ -61,8 +66,15 @@ func getAllProxies() (proxy.ProxyList, error){
 	url := "http://127.0.0.1:8080"
 	if config.Config.ServerUrl != "http://127.0.0.1:8080"{
 		url = config.Config.ServerUrl
+		if url[len(url)-1] == '/' {
+			url = url[:len(url)-1]
+		}
 	}
-	resp, err := http.Get(url + "/clash/proxies")
+	urls := strings.Split(url,"/")
+	if urls[len(urls)-2] != "clash" {
+		url = url + "/clash/proxies"
+	}
+	resp, err := http.Get(url)
 	if err != nil{
 		return nil, err
 	}
