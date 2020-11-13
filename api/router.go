@@ -1,6 +1,5 @@
 package api
 
-import "C"
 import (
 	"github.com/Sansui233/proxypool/pkg/provider"
 	"github.com/Sansui233/proxypoolCheck/config"
