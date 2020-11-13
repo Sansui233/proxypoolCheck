@@ -42,7 +42,7 @@ Basic configuration.
 ```yaml
 # proxypool remote server url. Blank for http://127.0.0.1:8080
 server_url: https://example.proxypoolserver.com
-# server_url: https://example.proxypoolserver.com/clash/proxies?type-vmess
+# server_url: https://example.proxypoolserver.com/clash/proxies?type=vmess
 
 # For your local server
 request: http   # http / https
