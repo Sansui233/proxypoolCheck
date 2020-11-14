@@ -92,6 +92,8 @@ func getAllProxies() (proxy.ProxyList, error){
 		}
 		pstr = pstr[2:]
 		if pp, ok := convert2Proxy(pstr); ok{
+			name := strings.Replace(pp.BaseInfo().Name, " |", "-",1)
+			pp.SetName(name)
 			proxylist = append(proxylist, pp)
 		}
 	}
