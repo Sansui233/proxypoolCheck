@@ -7,6 +7,8 @@ request: http   # http / https
 domain:         # default: 127.0.0.1
 port:           # default: 80
 
+show_remote_speed: true # default false
+
 speedtest:      # default false
 connection:     # default 5
 timout:         # default 10

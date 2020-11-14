@@ -20,6 +20,7 @@ type ConfigOptions struct {
 	SpeedTest  bool `json:"speedtest" yaml:"speedtest"`
 	Connection int 	 `json:"connection" yaml:"connection"`
 	Timeout    int   `json:"timeout" yaml:"timeout"`
+	ShowRemoteSpeed bool `json:"show_remote_speed" yaml:"show_remote_speed"`
 }
 
 var Config ConfigOptions
