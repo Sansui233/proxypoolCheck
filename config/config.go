@@ -19,6 +19,7 @@ type ConfigOptions struct {
 	Port       string `json:"port" yaml:"port"`
 	SpeedTest  bool `json:"speedtest" yaml:"speedtest"`
 	Connection int 	 `json:"connection" yaml:"connection"`
+	Timeout    int   `json:"timeout" yaml:"timeout"`
 }
 
 var Config ConfigOptions
@@ -53,7 +54,7 @@ func Parse(path string) error {
 		Config.Request = "http"
 	}
 	if Config.Connection == 0{
-		Config.Connection = 20
+		Config.Connection = 5
 	}
 	return nil
 }

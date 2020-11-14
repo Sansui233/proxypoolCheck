@@ -16,7 +16,7 @@ import (
 	"time"
 )
 
-const version = "v0.4.0"
+const version = "v0.4.1"
 
 var router *gin.Engine
 

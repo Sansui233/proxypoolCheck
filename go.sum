@@ -9,8 +9,8 @@ github.com/Dreamacro/go-shadowsocks2 v0.1.6-0.20200722122336-8e5c7db4f96a h1:JhQ
 github.com/Dreamacro/go-shadowsocks2 v0.1.6-0.20200722122336-8e5c7db4f96a/go.mod h1:LSXCjyHesPY3pLjhwff1mQX72ItcBT/N2xNC685cYeU=
 github.com/PuerkitoBio/goquery v1.5.1 h1:PSPBGne8NIUWw+/7vFBV+kG2J/5MOjbzc7154OaKCSE=
 github.com/PuerkitoBio/goquery v1.5.1/go.mod h1:GsLWisAFVj4WgDibEWF4pvYnkVQBpKBKeU+7zCJoLcc=
-github.com/Sansui233/proxypool v0.4.1-0.2020111403180000-4920813 h1:LzJK+Z1MF4Nw4fVSp9zABRJEYhVjcMBjNw0LoACPUdM=
-github.com/Sansui233/proxypool v0.4.1-0.2020111403180000-4920813/go.mod h1:d+yBnTbfVp3zVU0c8ecxeheijPKoY2BqGgf9stM/8jc=
+github.com/Sansui233/proxypool v0.4.1 h1:5XZIZElSaH2lD6Gaw/pqfQDgp7as8yucd9ev9L+sibM=
+github.com/Sansui233/proxypool v0.4.1/go.mod h1:d+yBnTbfVp3zVU0c8ecxeheijPKoY2BqGgf9stM/8jc=
 github.com/StackExchange/wmi v0.0.0-20170410192909-ea383cf3ba6e/go.mod h1:3eOhrUMpNV+6aFIbp5/iudMxNCF27Vw2OZgy4xEx0Fg=
 github.com/VividCortex/gohistogram v1.0.0/go.mod h1:Pf5mBqqDxYaXu3hDrrU+w6nw50o/4+TcAqDqk/vUH7g=
 github.com/andybalholm/cascadia v1.1.0/go.mod h1:GsXiBklL0woXo1j/WYWtSYYC4ouU9PqHO0sqidkEA4Y=

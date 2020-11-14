@@ -8,4 +8,5 @@ domain:         # default: 127.0.0.1
 port:           # default: 80
 
 speedtest:      # default false
-connection:     # default 20
+connection:     # default 5
+timout:         # default 10

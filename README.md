@@ -50,7 +50,8 @@ domain:         # default: 127.0.0.1
 port:           # default: 80
 
 speedtest:      # default false
-connection:     # default 20
+connection:     # default 5
+timeout:        # default 10
 ```
 
 If your web server port is not the same as proxypoolCheck serving port, you should put web server port in configuration, and set an environment variable `PORT` for proxypoolCheck to serve. This will be really helpful when you are doing frp.
