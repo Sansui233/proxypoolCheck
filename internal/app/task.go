@@ -24,6 +24,7 @@ func InitApp() error{
 	proxies, err := getAllProxies()
 	if err != nil {
 		log.Println("Get proxies error: ", err)
+		cache.LastCrawlTime = fmt.Sprint(time.Now().In(location).Format("2006-01-02 15:04:05"),err)
 		return err
 	}
 	cache.AllProxiesCount = len(proxies)
@@ -84,6 +85,9 @@ func getAllProxies() (proxy.ProxyList, error){
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	pjson := strings.Split(string(body),"\n")
+	if len(pjson) < 2{
+		return nil, errors.New("No proxy on remote server")
+	}
 
 	var proxylist proxy.ProxyList
 	for i, pstr := range pjson {
@@ -92,6 +96,9 @@ func getAllProxies() (proxy.ProxyList, error){
 		}
 		pstr = pstr[2:]
 		if pp, ok := convert2Proxy(pstr); ok{
+			if i == 1 && pp.BaseInfo().Name == "NULL" {
+				return nil, errors.New("No proxy on remote server")
+			}
 			if config.Config.ShowRemoteSpeed == true {
 				name := strings.Replace(pp.BaseInfo().Name, " |", "_",1)
 				pp.SetName(name)
