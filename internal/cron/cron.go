@@ -15,12 +15,18 @@ func Cron() {
 }
 
 func appTask() {
-	config.Parse("")
-	err := app.InitApp()
+	err := config.Parse("")
+	if err != nil{
+		log.Printf("config parse error: %s\n", err.Error())
+	}
+	err = app.InitApp()
 	if err != nil { // for wake up heroku
-		log.Println("Init app err: ", err, "\n Try in 2 minute")
+		log.Printf("init app err: %s\n Try in 2 minute\n", err.Error())
 		time.Sleep(time.Minute*2)
-		app.InitApp()
+		err = app.InitApp()
+		if err != nil {
+			log.Printf("crawl error: %s\n", err.Error())
+		}
 	}
 	runtime.GC()
 }
