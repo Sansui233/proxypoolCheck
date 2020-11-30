@@ -49,7 +49,7 @@ func InitApp() error{
 		if config.Config.Timeout >= 0 {
 			healthcheck.SpeedTimeout = time.Duration(config.Config.Timeout) * time.Second
 		}
-		healthcheck.SpeedTests(proxies, config.Config.Connection)
+		healthcheck.SpeedTestAll(proxies, config.Config.Connection)
 	}
 	cache.SetString("clashproxies", provider.Clash{
 		provider.Base{

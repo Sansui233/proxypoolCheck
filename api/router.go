@@ -11,7 +11,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"strconv"
 	"strings"
 	"time"
 )
@@ -82,13 +81,9 @@ func setupRouter(){
 		proxyTypes := c.DefaultQuery("type", "")
 		proxyCountry := c.DefaultQuery("c", "")
 		proxyNotCountry := c.DefaultQuery("nc", "")
-		proxySpeed, err := strconv.ParseFloat(c.DefaultQuery("speed", "0"), 64)
-		if err != nil {
-			log.Println("[router.go]", err)
-			proxySpeed = 0
-		}
+		proxySpeed := c.DefaultQuery("speed", "")
 		text := ""
-		if proxyTypes == "" && proxyCountry == "" && proxyNotCountry == "" && proxySpeed == 0 {
+		if proxyTypes == "" && proxyCountry == "" && proxyNotCountry == "" && proxySpeed == "" {
 			text = appcache.GetString("clashproxies") // A string. To show speed in this if condition, this must be updated after speedtest
 			if text == "" {
 				proxies := appcache.GetProxies("proxies")
@@ -131,13 +126,9 @@ func setupRouter(){
 		proxyTypes := c.DefaultQuery("type", "")
 		proxyCountry := c.DefaultQuery("c", "")
 		proxyNotCountry := c.DefaultQuery("nc", "")
-		proxySpeed, err := strconv.ParseFloat(c.DefaultQuery("speed", "0"), 64)
-		if err != nil {
-			log.Println("[router.go]", err)
-			proxySpeed = 0
-		}
+		proxySpeed := c.DefaultQuery("speed", "")
 		text := ""
-		if proxyTypes == "" && proxyCountry == "" && proxyNotCountry == "" && proxySpeed == 0 {
+		if proxyTypes == "" && proxyCountry == "" && proxyNotCountry == "" && proxySpeed == "" {
 			text = appcache.GetString("surgeproxies") // A string. To show speed in this if condition, this must be updated after speedtest
 			if text == "" {
 				proxies := appcache.GetProxies("proxies")
