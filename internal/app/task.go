@@ -30,7 +30,6 @@ func InitApp() error{
 	cache.AllProxiesCount = len(proxies)
 
 	// set cache variables
-	cache.UsableProxiesCount = len(proxies)
 	cache.SSProxiesCount = proxies.TypeLen("ss")
 	cache.SSRProxiesCount = proxies.TypeLen("ssr")
 	cache.VmessProxiesCount = proxies.TypeLen("vmess")
@@ -43,6 +42,7 @@ func InitApp() error{
 	log.Println("Usable proxy count: ", len(proxies))
 	// Save to app cache
 	cache.SetProxies("proxies", proxies)
+	cache.UsableProxiesCount = len(proxies)
 
 	// speedtest
 	if config.Config.SpeedTest == true{

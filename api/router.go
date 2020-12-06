@@ -3,6 +3,7 @@ package api
 import (
 	"github.com/Sansui233/proxypool/pkg/provider"
 	"github.com/Sansui233/proxypoolCheck/config"
+	"github.com/Sansui233/proxypoolCheck/internal/app"
 	appcache "github.com/Sansui233/proxypoolCheck/internal/cache"
 	"github.com/gin-contrib/cache"
 	"github.com/gin-contrib/cache/persistence"
@@ -165,6 +166,13 @@ func setupRouter(){
 			text = surge.Provide()
 		}
 		c.String(200, text)
+	})
+	router.GET("/forceupdate", func(c *gin.Context) {
+		err := app.InitApp()
+		if err != nil {
+			c.String(http.StatusOK, err.Error())
+		}
+		c.String(http.StatusOK, "Updated")
 	})
 }
 
