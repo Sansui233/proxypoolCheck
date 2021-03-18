@@ -67,45 +67,50 @@ func InitApp() error{
 }
 
 func getAllProxies() (proxy.ProxyList, error){
-	url := "http://127.0.0.1:8080"
-	if config.Config.ServerUrl != "http://127.0.0.1:8080"{
-		url = config.Config.ServerUrl
-		if url[len(url)-1] == '/' {
-			url = url[:len(url)-1]
+	var proxylist proxy.ProxyList
+
+	for _,value:=range config.Config.ServerUrl{
+		url := "http://127.0.0.1:8080"
+		if value != "http://127.0.0.1:8080"{
+			url = value
+			if url[len(url)-1] == '/' {
+				url = url[:len(url)-1]
+			}
 		}
-	}
-	urls := strings.Split(url,"/")
-	if urls[len(urls)-2] != "clash" {
-		url = url + "/clash/proxies"
-	}
-	resp, err := http.Get(url)
-	if err != nil{
-		return nil, err
-	}
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
-	pjson := strings.Split(string(body),"\n")
-	if len(pjson) < 2{
-		return nil, errors.New("No proxy on remote server")
+		urls := strings.Split(url,"/")
+		if urls[len(urls)-2] != "clash" {
+			url = url + "/clash/proxies"
+		}
+		resp, err := http.Get(url)
+		if err != nil{
+			return nil, err
+		}
+		defer resp.Body.Close()
+		body, err := ioutil.ReadAll(resp.Body)
+		pjson := strings.Split(string(body),"\n")
+		if len(pjson) < 2{
+			return nil, errors.New("No proxy on remote server")
+		}
+
+
+		for i, pstr := range pjson {
+			if i == 0 || len(pstr)<2{
+				continue
+			}
+			pstr = pstr[2:]
+			if pp, ok := convert2Proxy(pstr); ok{
+				if i == 1 && pp.BaseInfo().Name == "NULL" {
+					return nil, errors.New("No proxy on remote server")
+				}
+				if config.Config.ShowRemoteSpeed == true {
+					name := strings.Replace(pp.BaseInfo().Name, " |", "_",1)
+					pp.SetName(name)
+				}
+				proxylist = append(proxylist, pp)
+			}
+		}
 	}
 
-	var proxylist proxy.ProxyList
-	for i, pstr := range pjson {
-		if i == 0 || len(pstr)<2{
-			continue
-		}
-		pstr = pstr[2:]
-		if pp, ok := convert2Proxy(pstr); ok{
-			if i == 1 && pp.BaseInfo().Name == "NULL" {
-				return nil, errors.New("No proxy on remote server")
-			}
-			if config.Config.ShowRemoteSpeed == true {
-				name := strings.Replace(pp.BaseInfo().Name, " |", "_",1)
-				pp.SetName(name)
-			}
-			proxylist = append(proxylist, pp)
-		}
-	}
 	if proxylist == nil {
 		return nil, errors.New("No Proxy")
 	}
