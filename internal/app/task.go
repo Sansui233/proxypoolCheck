@@ -21,6 +21,7 @@ var location, _ = time.LoadLocation("PRC")
 // Get all usable proxies from proxypool server and set app vars
 func InitApp() error{
 	// Get proxies from server
+	// TODO 可能是编译的问题，加了flag的版本节点会更少
 	proxies, err := getAllProxies()
 	if err != nil {
 		log.Println("Get proxies error: ", err)
@@ -88,7 +89,6 @@ func getAllProxies() (proxy.ProxyList, error){
 	if len(pjson) < 2{
 		return nil, errors.New("No proxy on remote server")
 	}
-
 	var proxylist proxy.ProxyList
 	for i, pstr := range pjson {
 		if i == 0 || len(pstr)<2{
