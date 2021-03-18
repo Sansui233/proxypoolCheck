@@ -21,6 +21,7 @@ type ConfigOptions struct {
 	Connection int 	 `json:"connection" yaml:"connection"`
 	Timeout    int   `json:"timeout" yaml:"timeout"`
 	ShowRemoteSpeed bool `json:"show_remote_speed" yaml:"show_remote_speed"`
+	CronInterval uint64 `json:"cron_interval" yaml:"cron_interval"`
 }
 
 var Config ConfigOptions
@@ -56,6 +57,9 @@ func Parse(path string) error {
 	}
 	if Config.Connection == 0{
 		Config.Connection = 5
+	}
+	if Config.CronInterval == 0{
+		Config.Connection = 15
 	}
 	return nil
 }

@@ -30,6 +30,7 @@ func main()  {
 	}
 
 	go app.InitApp()
+	log.Printf("The program will run every %v minutes\n", config.Config.CronInterval)
 	go cron.Cron()
 	// Run
 	api.Run()
