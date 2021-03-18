@@ -13,14 +13,15 @@ var configFilePath = "config.yaml"
 
 // ConfigOptions is a struct that represents config files
 type ConfigOptions struct {
-	ServerUrl  string `json:"server_url" yaml:"server_url"`
-	Request	   string `json:"request" yaml:"request"'`
+	ServerUrl  []string `json:"server_url" yaml:"server_url"`
+	Request	   string `json:"request" yaml:"request"`
 	Domain     string `json:"domain" yaml:"domain"`
 	Port       string `json:"port" yaml:"port"`
 	SpeedTest  bool `json:"speedtest" yaml:"speedtest"`
 	Connection int 	 `json:"connection" yaml:"connection"`
 	Timeout    int   `json:"timeout" yaml:"timeout"`
 	ShowRemoteSpeed bool `json:"show_remote_speed" yaml:"show_remote_speed"`
+	CronInterval uint64 `json:"cron_interval" yaml:"cron_interval"`
 }
 
 var Config ConfigOptions
@@ -42,7 +43,7 @@ func Parse(path string) error {
 		return err
 	}
 	// set default
-	if Config.ServerUrl == ""{
+	if Config.ServerUrl == nil{
 		return errors.New("config error: no server url")
 	}
 	if Config.Domain == ""{
@@ -56,6 +57,9 @@ func Parse(path string) error {
 	}
 	if Config.Connection == 0{
 		Config.Connection = 5
+	}
+	if Config.CronInterval == 0{
+		Config.Connection = 15
 	}
 	return nil
 }

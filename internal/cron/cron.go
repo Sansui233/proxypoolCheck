@@ -10,7 +10,7 @@ import (
 )
 
 func Cron() {
-	_ = gocron.Every(15).Minutes().Do(appTask)
+	_ = gocron.Every(config.Config.CronInterval).Minutes().Do(appTask)
 	<-gocron.Start()
 }
 
