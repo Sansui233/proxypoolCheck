@@ -68,6 +68,8 @@ func InitApp() error{
 
 func getAllProxies() (proxy.ProxyList, error){
 	var proxylist proxy.ProxyList
+	tempMap := map[string]byte{}
+	tempMapLen:=len(tempMap)
 
 	for _,value:=range config.Config.ServerUrl{
 		url := "http://127.0.0.1:8080"
@@ -97,6 +99,11 @@ func getAllProxies() (proxy.ProxyList, error){
 			if i == 0 || len(pstr)<2{
 				continue
 			}
+			tempMap[pstr]=0
+			if len(tempMap) ==tempMapLen{
+				continue
+			}
+			tempMapLen++
 			pstr = pstr[2:]
 			if pp, ok := convert2Proxy(pstr); ok{
 				if i == 1 && pp.BaseInfo().Name == "NULL" {
