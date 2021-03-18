@@ -83,15 +83,20 @@ func getAllProxies() (proxy.ProxyList, error){
 		if urls[len(urls)-2] != "clash" {
 			url = url + "/clash/proxies"
 		}
+		log.Printf("Requesting %v",url)
 		resp, err := http.Get(url)
 		if err != nil{
-			return nil, err
+			log.Printf("warning: %v\n", err)
+			continue
+			//return nil, err
 		}
 		defer resp.Body.Close()
 		body, err := ioutil.ReadAll(resp.Body)
 		pjson := strings.Split(string(body),"\n")
 		if len(pjson) < 2{
-			return nil, errors.New("No proxy on remote server")
+			log.Println("warning: No proxy on remote server")
+			continue
+			//return nil, errors.New("No proxy on remote server")
 		}
 
 
@@ -107,7 +112,9 @@ func getAllProxies() (proxy.ProxyList, error){
 			pstr = pstr[2:]
 			if pp, ok := convert2Proxy(pstr); ok{
 				if i == 1 && pp.BaseInfo().Name == "NULL" {
-					return nil, errors.New("No proxy on remote server")
+					log.Println("warning: No proxy on remote server")
+					continue
+					//return nil, errors.New("No proxy on remote server")
 				}
 				if config.Config.ShowRemoteSpeed == true {
 					name := strings.Replace(pp.BaseInfo().Name, " |", "_",1)
