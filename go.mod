@@ -4,7 +4,7 @@ go 1.15
 
 require (
 	github.com/PuerkitoBio/goquery v1.6.0 // indirect
-	github.com/Sansui233/proxypool v0.5.3
+	github.com/Sansui233/proxypool v0.6.1-0.20210319101909-7b0b3560fd25
 	github.com/antchfx/xmlquery v1.3.3 // indirect
 	github.com/antchfx/xpath v1.1.11 // indirect
 	github.com/bradfitz/gomemcache v0.0.0-20190913173617-a41fca850d0b // indirect
