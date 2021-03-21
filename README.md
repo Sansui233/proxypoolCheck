@@ -15,6 +15,12 @@ Choose either.
 
 Download from [releases](https://github.com/Sansui233/proxypoolCheck/releases)
 
+Don't forget to add 755 permissions
+
+```
+chmod +775 proxypoolcheck
+```
+
 Put config.yaml into directory and run. You can use -c to specify configuration path.
 
 ```shell
@@ -41,17 +47,22 @@ Basic configuration.
 
 ```yaml
 # proxypool remote server url. Blank for http://127.0.0.1:8080
-server_url: https://example.proxypoolserver.com
-# server_url: https://example.proxypoolserver.com/clash/proxies?type=vmess
+server_url:
+  - https://example.proxypoolserver.com
+  - https://example.proxypoolserver.com/clash/proxies?type=vmess
+
 
 # For your local server
 request: http   # http / https
 domain:         # default: 127.0.0.1
 port:           # default: 80
 
+cron_interval: 15 # default: 15  minutes
+show_remote_speed: true # default false
+
 speedtest:      # default false
 connection:     # default 5
-timeout:        # default 10
+timout:         # default 10
 ```
 
 If your web server port is not the same as proxypoolCheck serving port, you should put web server port in configuration, and set an environment variable `PORT` for proxypoolCheck to serve. This will be really helpful when you are doing frp.
