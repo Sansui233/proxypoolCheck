@@ -70,16 +70,23 @@ timout:         # default 10
 需要修改的参数：
 
 server_url：远程服务器链接，可以使用筛选参数。支持多种来源
+
 request：要显示到网页的协议，默认 http，可选 https。
+
 domain：要显示到网页的域名，默认 127.0.0.1。
+
 port：要显示到网页上的端口，默认 80。如果本机有其他程序占用需要修改。
 
 可选参数：
 
 show_remote_speed：貌似是显示远程速度，默认false，但建议改成true（应为作者写的就是true）
+
 cron_interval：工作间隔，默认15分钟
+
 speedtest：是否开启测速，默认关闭。开启测速会消耗大量服务器资源。
+
 connection：测速并发连接数，默认值为 5。
+
 timeout：单个节点测速时间限制，默认值为 10，单位为秒。超过此时间限制的节点会测速失败
 
 
