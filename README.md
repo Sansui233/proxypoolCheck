@@ -48,8 +48,8 @@ Basic configuration.
 ```yaml
 # proxypool remote server url. Blank for http://127.0.0.1:8080
 server_url:
-  - http://192.168.2.1/clash/proxies
-  - http://192.168.2.1/clash/proxies
+  - https://example.proxypoolserver.com
+  - https://example.proxypoolserver.com/clash/proxies?type=vmess
 
 
 # For your local server
