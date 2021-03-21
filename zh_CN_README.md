@@ -1,5 +1,12 @@
 # Proxypool 健康检查
 
+## 导航
+- [信息](#信息)
+- [安装和运行](#安装和运行)
+- [配置](#配置)
+- [添加自启](#添加自启)
+- [声明](#声明)
+
 ## 信息
 
 这是为[proxypool](https://github.com/sansui233/proxypool)的代理节点检查，并提供检查后可用的代理节点
@@ -96,7 +103,7 @@ timeout：单个节点测速时间限制，默认值为 10，单位为秒。超�
 export PORT=ppcheckport
 ```
 ## 添加自启
-配置 systemd 服务
+**配置 systemd 服务**
 
 `vim /etc/systemd/system/proxypoolcheck.service` 填入下面内容：
 ```
@@ -113,13 +120,13 @@ ExecStart=/proxypoolcheck所在的目录/proxypoolcheck -c /指定配置文件�
 WantedBy=default.target
 ```
 
-重载 systemd 服务
+**重载 systemd 服务**
 
 ```
 systemctl daemon-reload
 ```
 
-启动proxypoolcheck服务
+**启动proxypoolcheck服务**
 ```
 systemctl start proxypoolcheck
 ```
@@ -131,16 +138,16 @@ systemctl start proxypoolcheck
      Active: active (running) since Sun 2021-03-21 14:53:55 UTC; 9s ago
 ```
 
-添加开机启动
+**添加开机启动**
 ```
 systemctl enable proxypoolcheck
 ```
 
-查询服务是否开机启动，enabled即开启自启
+**查询服务是否开机启动，enabled即开启自启**
 ```
 systemctl is-enabled proxypoolcheck.service
 ```
-`reboot`重启后`systemctl status proxypoolcheck`看看是否正常，如果正常，您就可以给个star，然后关闭网页，尽情享受
+**`reboot`重启后`systemctl status proxypoolcheck`看看是否正常，如果正常，您就可以给个star，然后关闭网页，尽情享受**
 
 
 ## 声明
