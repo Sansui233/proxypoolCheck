@@ -86,7 +86,7 @@ port：要显示到网页上的端口，默认 80。如果本机有其他程序�
 
 可选参数：
 
-show_remote_speed：貌似是显示远程速度，默认false，但建议改成true（应为作者写的就是true）
+show_remote_speed：貌似是显示远程速度，默认false，但建议改成true（因为作者写的就是true）
 
 cron_interval：工作间隔，默认15分钟
 
