@@ -28,6 +28,7 @@ func InitApp() error{
 		cache.LastCrawlTime = fmt.Sprint(time.Now().In(location).Format("2006-01-02 15:04:05"),err)
 		return err
 	}
+	proxies = proxies.Deduplication()
 	cache.AllProxiesCount = len(proxies)
 
 	// set cache variables
