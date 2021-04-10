@@ -6,7 +6,7 @@
 This is proxy health check and provider part of proxypool. You should have had a
 [proxypool](https://github.com/sansui233/proxypool) server available at first.
 
-Due to the poor availability of proceeding node health check on servers overseas, The best usage of this project is to run on your own server within Mainland China.
+Due to the poor availability of proceeding proxy health check on servers overseas, The best usage of this project is to run on your own server within Mainland China.
 
 ## Install&Run
 

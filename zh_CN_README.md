@@ -1,18 +1,20 @@
 # Proxypool 健康检查
 
 ## 导航
-- [信息](#信息)
+- [简介](#简介)
 - [安装和运行](#安装和运行)
 - [配置](#配置)
 - [添加自启](#添加自启)
 - [声明](#声明)
 
-## 信息
+## 简介
 
-这是为[proxypool](https://github.com/sansui233/proxypool)的代理节点检查，并提供检查后可用的代理节点
-所以，您应该有一个（或知道一个）可用的[proxypool](https://github.com/sansui233/proxypool)服务器。
+此项目为[proxypool](https://github.com/sansui233/proxypool)的代理池节点可用性检测部分，并提供检测后可用的代理。
 
-Proxypool 健康检查最好是在本地（即您家里）部署，也可以在自己的中国大陆服务器上运行。
+此项目推荐在本地（即您家里）部署，或是的中国大陆服务器上运行，以提升代理池节点的实际可用比例。
+
+在使用此项目之前，您应该有一个（或知道一个）可用的[proxypool](https://github.com/sansui233/proxypool)服务器。
+
 
 ## 安装和运行
 
@@ -76,33 +78,29 @@ timout:         # default 10
 
 需要修改的参数：
 
-server_url：远程服务器链接，可以使用筛选参数。支持多种来源
-
-request：要显示到网页的协议，默认 http，可选 https。
-
-domain：要显示到网页的域名，默认 127.0.0.1。
-
-port：要显示到网页上的端口，默认 80。如果本机有其他程序占用需要修改。
+- `server_url`：远程服务器链接，可以使用筛选参数。支持多种来源
+- `request`：要显示到网页的协议，默认 http，可选 https。
+- `domain`：要显示到网页的域名，默认 127.0.0.1。
+- `port`：要显示到网页上的端口，默认 80。如果本机有其他程序占用需要修改。
 
 可选参数：
 
-show_remote_speed：貌似是显示远程速度，默认false，但建议改成true（因为作者写的就是true）
-
-cron_interval：工作间隔，默认15分钟
-
-speedtest：是否开启测速，默认关闭。开启测速会消耗大量服务器资源。
-
-connection：测速并发连接数，默认值为 5。
-
-timeout：单个节点测速时间限制，默认值为 10，单位为秒。超过此时间限制的节点会测速失败
+- `show_remote_speed`：显示远程速度，默认false，但建议改成true（因为作者写的就是true）
+- `cron_interval`：工作间隔，默认15分钟
+- `speedtest`：是否开启测速，默认关闭。开启测速会消耗大量流量。
+- `connection`：测速并发连接数，默认值为 5。
+- `timeout`：单个节点测速时间限制，默认值为 10，单位为秒。超过此时间限制的节点会测速失败
 
 
 如果您的Web服务器端口与proxypoolCheck服务端口不同，应该将web服务器端口放在配置中，并且设置环境变量`PORT`以供proxypoolCheck服务。当您使用frp时，这将非常有帮助。
 
-```
+```shell
 export PORT=ppcheckport
 ```
 ## 添加自启
+
+此部分适用于Linux。
+
 **配置 systemd 服务**
 
 `vim /etc/systemd/system/proxypoolcheck.service` 填入下面内容：
