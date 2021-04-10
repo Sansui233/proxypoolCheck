@@ -83,8 +83,9 @@ func setupRouter(){
 		proxyCountry := c.DefaultQuery("c", "")
 		proxyNotCountry := c.DefaultQuery("nc", "")
 		proxySpeed := c.DefaultQuery("speed", "")
+		proxyFilter := c.DefaultQuery("filter", "")
 		text := ""
-		if proxyTypes == "" && proxyCountry == "" && proxyNotCountry == "" && proxySpeed == "" {
+		if proxyTypes == "" && proxyCountry == "" && proxyNotCountry == "" && proxySpeed == "" && proxyFilter == "" {
 			text = appcache.GetString("clashproxies") // A string. To show speed in this if condition, this must be updated after speedtest
 			if text == "" {
 				proxies := appcache.GetProxies("proxies")
@@ -105,6 +106,7 @@ func setupRouter(){
 					Country:    proxyCountry,
 					NotCountry: proxyNotCountry,
 					Speed:      proxySpeed,
+					Filter:     proxyFilter,
 				},
 			}
 			text = clash.Provide() // 根据Query筛选节点
@@ -117,6 +119,7 @@ func setupRouter(){
 					Country:    proxyCountry,
 					NotCountry: proxyNotCountry,
 					Speed:      proxySpeed,
+					Filter:     proxyFilter,
 				},
 			}
 			text = clash.Provide() // 根据Query筛选节点
@@ -128,13 +131,14 @@ func setupRouter(){
 		proxyCountry := c.DefaultQuery("c", "")
 		proxyNotCountry := c.DefaultQuery("nc", "")
 		proxySpeed := c.DefaultQuery("speed", "")
+		proxyFilter := c.DefaultQuery("filter", "")
 		text := ""
 		if proxyTypes == "" && proxyCountry == "" && proxyNotCountry == "" && proxySpeed == "" {
 			text = appcache.GetString("surgeproxies") // A string. To show speed in this if condition, this must be updated after speedtest
 			if text == "" {
 				proxies := appcache.GetProxies("proxies")
 				surge := provider.Surge{
-					provider.Base{
+					Base: provider.Base{
 						Proxies: &proxies,
 					},
 				}
@@ -144,23 +148,25 @@ func setupRouter(){
 		} else if proxyTypes == "all" {
 			proxies := appcache.GetProxies("allproxies")
 			surge := provider.Surge{
-				provider.Base{
+				Base: provider.Base{
 					Proxies:    &proxies,
 					Types:      proxyTypes,
 					Country:    proxyCountry,
 					NotCountry: proxyNotCountry,
 					Speed:      proxySpeed,
+					Filter:     proxyFilter,
 				},
 			}
 			text = surge.Provide()
 		} else {
 			proxies := appcache.GetProxies("proxies")
 			surge := provider.Surge{
-				provider.Base{
+				Base: provider.Base{
 					Proxies:    &proxies,
 					Types:      proxyTypes,
 					Country:    proxyCountry,
 					NotCountry: proxyNotCountry,
+					Filter:     proxyFilter,
 				},
 			}
 			text = surge.Provide()
