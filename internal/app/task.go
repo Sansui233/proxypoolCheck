@@ -28,7 +28,7 @@ func InitApp() error{
 		cache.LastCrawlTime = fmt.Sprint(time.Now().In(location).Format("2006-01-02 15:04:05"),err)
 		return err
 	}
-	proxies = proxies.Deduplication()
+	proxies = proxies.Derive().Deduplication()
 	cache.AllProxiesCount = len(proxies)
 
 	// set cache variables
@@ -37,8 +37,8 @@ func InitApp() error{
 	cache.VmessProxiesCount = proxies.TypeLen("vmess")
 	cache.TrojanProxiesCount = proxies.TypeLen("trojan")
 	cache.LastCrawlTime = fmt.Sprint(time.Now().In(location).Format("2006-01-02 15:04:05"))
-
 	log.Println("Number of proxies:", cache.AllProxiesCount)
+
 	log.Println("Now proceeding health check...")
 	if config.Config.HealthCheckTimeout >= 0 {
 		healthcheck.SpeedTimeout = time.Duration(config.Config.HealthCheckTimeout) * time.Second
@@ -46,11 +46,12 @@ func InitApp() error{
 	}
 	proxies = healthcheck.CleanBadProxiesWithGrpool(proxies)
 	log.Println("Usable proxy count: ", len(proxies))
-	// Save to app cache
+
+	// Save to cache
 	cache.SetProxies("proxies", proxies)
 	cache.UsableProxiesCount = len(proxies)
 
-	// speedtest
+	// Speed test
 	if config.Config.SpeedTest == true{
 		if config.Config.SpeedTimeout >= 0 {
 			healthcheck.SpeedTimeout = time.Duration(config.Config.SpeedTimeout) * time.Second
