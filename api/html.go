@@ -107,7 +107,7 @@ func assetsHtmlClashConfigYaml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "assets/html/clash-config.yaml", size: 54543, mode: os.FileMode(420), modTime: time.Unix(1603803569, 0)}
+	info := bindataFileInfo{name: "assets/html/clash-config.yaml", size: 54471, mode: os.FileMode(420), modTime: time.Unix(1603803569, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
