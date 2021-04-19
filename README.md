@@ -30,9 +30,9 @@ Put config.yaml into directory and run. You can use -c to specify configuration 
 ./proxypoolCheck -c PathToConfig
 ```
 
-### 2. Compile Source
+### 2. Use Source
 
-Make sure golang installed. Then download source
+Make sure golang 1.16 installed. Then download source
 ```sh
 $ go get -u -v github.com/Sansui233/proxypoolCheck
 ```
@@ -41,10 +41,12 @@ And run
 ```shell script
 $ go run main.go -c ./config/config.yaml
 ```
+Compile into bin directory
+```
+make
+```
 
 ## Configuration
-
-Basic configuration.
 
 ```yaml
 # proxypool remote server url. Blank for http://127.0.0.1:8080
@@ -61,9 +63,11 @@ port:           # default: 80
 cron_interval: 15 # default: 15  minutes
 show_remote_speed: true # default false
 
+healthcheck_timeout:    # default 5
+
 speedtest:      # default false
+speed_timout:    # default 10
 connection:     # default 5
-timout:         # default 10
 ```
 
 If your web server port is not the same as proxypoolCheck serving port, you should put web server port in configuration, and set an environment variable `PORT` for proxypoolCheck to serve. This will be really helpful when you are doing frp.

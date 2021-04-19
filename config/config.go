@@ -17,9 +17,10 @@ type ConfigOptions struct {
 	Request	   string `json:"request" yaml:"request"`
 	Domain     string `json:"domain" yaml:"domain"`
 	Port       string `json:"port" yaml:"port"`
+	HealthCheckTimeout int `json:"healthcheck_timeout" yaml:"healthcheck_timeout"`
 	SpeedTest  bool `json:"speedtest" yaml:"speedtest"`
 	Connection int 	 `json:"connection" yaml:"connection"`
-	Timeout    int   `json:"timeout" yaml:"timeout"`
+	SpeedTimeout    int   `json:"speed_timeout" yaml:"speed_timeout"`
 	ShowRemoteSpeed bool `json:"show_remote_speed" yaml:"show_remote_speed"`
 	CronInterval uint64 `json:"cron_interval" yaml:"cron_interval"`
 }
