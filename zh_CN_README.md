@@ -40,7 +40,7 @@ chmod +775 proxypoolcheck
 ./proxypoolCheck -c /指定目录/config.yaml
 ```
 
-### 2. 自行构建
+### 2. 源代码运行
 
 确保安装golang，然后下载源码
 ```sh
@@ -68,12 +68,14 @@ request: http   # http / https
 domain:         # default: 127.0.0.1
 port:           # default: 80
 
-cron_interval: 15 # default: 15  minutes
+cron_interval: 15       # default: 15  minutes
 show_remote_speed: true # default false
+
+healthcheck-timout:     # default 5
 
 speedtest:      # default false
 connection:     # default 5
-timout:         # default 10
+speed-timout:   # default 10
 ```
 
 需要修改的参数：
@@ -89,7 +91,8 @@ timout:         # default 10
 - `cron_interval`：工作间隔，默认15分钟
 - `speedtest`：是否开启测速，默认关闭。开启测速会消耗大量流量。
 - `connection`：测速并发连接数，默认值为 5。
-- `timeout`：单个节点测速时间限制，默认值为 10，单位为秒。超过此时间限制的节点会测速失败
+- `speed-timeout`：单个节点测速时间限制，默认值为 10，单位为秒。超过此时间限制的节点会测速失败
+- `healthcheck-timeout`：单个节点健康检测时间限制，默认值为 5，单位为秒。超过此时间限制的节点为无效节点
 
 
 如果您的Web服务器端口与proxypoolCheck服务端口不同，应该将web服务器端口放在配置中，并且设置环境变量`PORT`以供proxypoolCheck服务。当您使用frp时，这将非常有帮助。
