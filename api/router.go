@@ -1,6 +1,13 @@
 package api
 
 import (
+	"html/template"
+	"log"
+	"net/http"
+	"os"
+	"strings"
+	"time"
+
 	"github.com/Sansui233/proxypool/pkg/provider"
 	"github.com/Sansui233/proxypoolCheck/config"
 	"github.com/Sansui233/proxypoolCheck/internal/app"
@@ -8,19 +15,13 @@ import (
 	"github.com/gin-contrib/cache"
 	"github.com/gin-contrib/cache/persistence"
 	"github.com/gin-gonic/gin"
-	"html/template"
-	"log"
-	"net/http"
-	"os"
-	"strings"
-	"time"
 )
 
 const version = "v0.7.0"
 
 var router *gin.Engine
 
-func setupRouter(){
+func setupRouter() {
 	gin.SetMode(gin.ReleaseMode)
 	router = gin.New() // 没有任何中间件的路由
 	store := persistence.NewInMemoryStore(time.Minute)
@@ -52,25 +53,25 @@ func setupRouter(){
 	})
 	router.GET("/clash", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "assets/html/clash.html", gin.H{
-			"domain": config.Config.Domain,
-			"port": config.Config.Port,
+			"domain":  config.Config.Domain,
+			"port":    config.Config.Port,
 			"request": config.Config.Request,
 		})
 	})
 
 	router.GET("/surge", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "assets/html/surge.html", gin.H{
-			"domain": config.Config.Domain,
+			"domain":  config.Config.Domain,
 			"request": config.Config.Request,
-			"port": config.Config.Port,
+			"port":    config.Config.Port,
 		})
 	})
 
 	router.GET("/clash/config", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "assets/html/clash-config.yaml", gin.H{
-			"domain": config.Config.Domain,
+			"domain":  config.Config.Domain,
 			"request": config.Config.Request,
-			"port": config.Config.Port,
+			"port":    config.Config.Port,
 		})
 	})
 	router.GET("/clash/localconfig", func(c *gin.Context) {
@@ -192,7 +193,7 @@ func Run() {
 	// Run on this server
 	err := router.Run(":" + servePort)
 	if err != nil {
-		log.Fatal("[router.go] Remote server starting failed")
+		log.Fatalf("[router.go] Web server starting failed. Make sure your port %s has not been used. \n%s", servePort, err.Error())
 	}
 }
 
