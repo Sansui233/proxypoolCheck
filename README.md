@@ -1,5 +1,5 @@
 # Proxypool Health Check
-## [中文教程](zh_CN_README.md)
+## [中文教程](README_zh_CN.md)
 
 ## Info
 
