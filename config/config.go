@@ -13,16 +13,17 @@ var configFilePath = "config.yaml"
 
 // ConfigOptions is a struct that represents config files
 type ConfigOptions struct {
-	ServerUrl  []string `json:"server_url" yaml:"server_url"`
-	Request	   string `json:"request" yaml:"request"`
-	Domain     string `json:"domain" yaml:"domain"`
-	Port       string `json:"port" yaml:"port"`
-	HealthCheckTimeout int `json:"healthcheck_timeout" yaml:"healthcheck_timeout"`
-	SpeedTest  bool `json:"speedtest" yaml:"speedtest"`
-	Connection int 	 `json:"connection" yaml:"connection"`
-	SpeedTimeout    int   `json:"speed_timeout" yaml:"speed_timeout"`
-	ShowRemoteSpeed bool `json:"show_remote_speed" yaml:"show_remote_speed"`
-	CronInterval uint64 `json:"cron_interval" yaml:"cron_interval"`
+	ServerUrl          []string `json:"server_url" yaml:"server_url"`
+	Request            string   `json:"request" yaml:"request"`
+	Domain             string   `json:"domain" yaml:"domain"`
+	Port               string   `json:"port" yaml:"port"`
+	HealthCheckTimeout int      `json:"healthcheck_timeout" yaml:"healthcheck_timeout"`
+	HealthCheckConnection int 	`json:"healthcheck_connection" yaml:"healthcheck_connection"`
+	SpeedTest          bool     `json:"speedtest" yaml:"speedtest"`
+	SpeedConnection    int      `json:"speed_connection" yaml:"speed_connection"`
+	SpeedTimeout       int      `json:"speed_timeout" yaml:"speed_timeout"`
+	ShowRemoteSpeed    bool     `json:"show_remote_speed" yaml:"show_remote_speed"`
+	CronInterval       uint64   `json:"cron_interval" yaml:"cron_interval"`
 }
 
 var Config ConfigOptions
@@ -56,11 +57,20 @@ func Parse(path string) error {
 	if Config.Request == ""{
 		Config.Request = "http"
 	}
-	if Config.Connection == 0{
-		Config.Connection = 5
+	if Config.HealthCheckTimeout == 0{
+		Config.HealthCheckTimeout = 5
+	}
+	if Config.HealthCheckConnection == 0{
+		Config.HealthCheckConnection = 100
+	}
+	if Config.SpeedConnection == 0{
+		Config.SpeedConnection = 15
+	}
+	if Config.SpeedTimeout == 0 {
+		Config.SpeedTimeout = 10
 	}
 	if Config.CronInterval == 0{
-		Config.Connection = 15
+		Config.CronInterval = 15
 	}
 	return nil
 }

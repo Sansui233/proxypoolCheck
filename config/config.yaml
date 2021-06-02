@@ -12,7 +12,8 @@ cron_interval: 15       # default: 15  minutes
 show_remote_speed: true # default false
 
 healthcheck_timeout:    # default 5
+healthcheck_connection: # default 100
 
 speedtest:              # default false
-connection:             # default 5
+speed_connection:       # default 5
 speed_timeout:          # default 10

@@ -72,10 +72,11 @@ cron_interval: 15       # default: 15  minutes
 show_remote_speed: true # default false
 
 healthcheck_timout:     # default 5
+healthcheck_connection: # default 100
 
-speedtest:      # default false
-connection:     # default 5
-speed_timout:   # default 10
+speedtest:            # default false
+speed_connection:     # default 5
+speed_timout:         # default 10
 ```
 
 需要修改的参数：
@@ -90,9 +91,10 @@ speed_timout:   # default 10
 - `show_remote_speed`：显示远程速度，默认false，但建议改成true（因为作者写的就是true）
 - `cron_interval`：工作间隔，默认15分钟
 - `speedtest`：是否开启测速，默认关闭。开启测速会消耗大量流量。
-- `connection`：测速并发连接数，默认值为 5。
+- `speed_connection`：测速并发连接数，默认值为 5。
 - `speed_timeout`：单个节点测速时间限制，默认值为 10，单位为秒。超过此时间限制的节点会测速失败
 - `healthcheck_timeout`：单个节点健康检测时间限制，默认值为 5，单位为秒。超过此时间限制的节点为无效节点
+- `healthcheck_connection`：节点健康检测并发连接数，默认值为 100。丢失大量可用节点时可大幅减少此项数值。
 
 
 如果您的Web服务器端口与proxypoolCheck服务端口不同，应该将web服务器端口放在配置中，并且设置环境变量`PORT`以供proxypoolCheck服务。当您使用frp时，这将非常有帮助。

@@ -17,6 +17,8 @@ func main()  {
 		http.ListenAndServe("0.0.0.0:6061", nil)
 	}()
 
+	//Slog.SetLevel(Slog.DEBUG) // Print original pack log
+
 	// fetch configuration
 	flag.StringVar(&configFilePath, "c", "", "path to config file: config.yaml")
 	flag.Parse()

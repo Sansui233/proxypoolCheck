@@ -60,14 +60,15 @@ request: http   # http / https
 domain:         # default: 127.0.0.1
 port:           # default: 80
 
-cron_interval: 15 # default: 15  minutes
+cron_interval: 15       # default: 15  minutes
 show_remote_speed: true # default false
 
 healthcheck_timeout:    # default 5
+healthcheck_connection: # default 100
 
-speedtest:      # default false
-speed_timout:    # default 10
-connection:     # default 5
+speedtest:            # default false
+speed_timout:         # default 10
+speed_connection:     # default 5
 ```
 
 If your web server port is not the same as proxypoolCheck serving port, you should put web server port in configuration, and set an environment variable `PORT` for proxypoolCheck to serve. This will be really helpful when you are doing frp.

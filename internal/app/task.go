@@ -44,6 +44,13 @@ func InitApp() error{
 		healthcheck.SpeedTimeout = time.Duration(config.Config.HealthCheckTimeout) * time.Second
 		log.Printf("CONF: Health check timeout is set to %d seconds\n", config.Config.HealthCheckTimeout)
 	}
+
+	// healthcheck setttings
+	healthcheck.DelayConn = config.Config.HealthCheckConnection
+	healthcheck.DelayTimeout = time.Duration(config.Config.HealthCheckTimeout) * time.Second
+	healthcheck.SpeedConn = config.Config.SpeedConnection
+	healthcheck.SpeedTimeout = time.Duration(config.Config.SpeedTimeout) * time.Second
+
 	proxies = healthcheck.CleanBadProxiesWithGrpool(proxies)
 	log.Println("Usable proxy count: ", len(proxies))
 
@@ -51,14 +58,10 @@ func InitApp() error{
 	cache.SetProxies("proxies", proxies)
 	cache.UsableProxiesCount = len(proxies)
 
-	// Speed test
-	if config.Config.SpeedTest == true{
-		if config.Config.SpeedTimeout >= 0 {
-			healthcheck.SpeedTimeout = time.Duration(config.Config.SpeedTimeout) * time.Second
-			log.Printf("CONF: Speed test timeout is set to %d seconds\n", config.Config.SpeedTimeout)
-		}
-		healthcheck.SpeedTestAll(proxies, config.Config.Connection)
+	if config.Config.SpeedTest == true {
+		healthcheck.SpeedTestAll(proxies)
 	}
+
 	cache.SetString("clashproxies", provider.Clash{
 		provider.Base{
 			Proxies: &proxies,
