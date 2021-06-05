@@ -76,7 +76,7 @@ healthcheck_connection: # default 100
 
 speedtest:            # default false
 speed_connection:     # default 5
-speed_timout:         # default 10
+speed_timeout:         # default 10
 ```
 
 需要修改的参数：
