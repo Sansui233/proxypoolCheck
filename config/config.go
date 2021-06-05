@@ -14,16 +14,16 @@ var configFilePath = "config.yaml"
 // ConfigOptions is a struct that represents config files
 type ConfigOptions struct {
 	ServerUrl          []string `json:"server_url" yaml:"server_url"`
-	Request            string   `json:"request" yaml:"request"`
 	Domain             string   `json:"domain" yaml:"domain"`
 	Port               string   `json:"port" yaml:"port"`
+	Request            string   `json:"request" yaml:"request"`
+	CronInterval       uint64   `json:"cron_interval" yaml:"cron_interval"`
+	ShowRemoteSpeed    bool     `json:"show_remote_speed" yaml:"show_remote_speed"`
 	HealthCheckTimeout int      `json:"healthcheck_timeout" yaml:"healthcheck_timeout"`
 	HealthCheckConnection int 	`json:"healthcheck_connection" yaml:"healthcheck_connection"`
 	SpeedTest          bool     `json:"speedtest" yaml:"speedtest"`
 	SpeedConnection    int      `json:"speed_connection" yaml:"speed_connection"`
 	SpeedTimeout       int      `json:"speed_timeout" yaml:"speed_timeout"`
-	ShowRemoteSpeed    bool     `json:"show_remote_speed" yaml:"show_remote_speed"`
-	CronInterval       uint64   `json:"cron_interval" yaml:"cron_interval"`
 }
 
 var Config ConfigOptions
@@ -54,6 +54,9 @@ func Parse(path string) error {
 	if Config.Port == ""{
 		Config.Port = "80"
 	}
+	if Config.CronInterval == 0{
+		Config.CronInterval = 15
+	}
 	if Config.Request == ""{
 		Config.Request = "http"
 	}
@@ -68,9 +71,6 @@ func Parse(path string) error {
 	}
 	if Config.SpeedTimeout == 0 {
 		Config.SpeedTimeout = 10
-	}
-	if Config.CronInterval == 0{
-		Config.CronInterval = 15
 	}
 	return nil
 }

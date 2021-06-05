@@ -25,7 +25,7 @@ func InitApp() error{
 	proxies, err := getAllProxies()
 	if err != nil {
 		log.Println("Get proxies error: ", err)
-		cache.LastCrawlTime = fmt.Sprint(time.Now().In(location).Format("2006-01-02 15:04:05"),err)
+		cache.LastCrawlTime = fmt.Sprint(time.Now().In(location).Format("2006-01-02 15:04:05"), err)
 		return err
 	}
 	proxies = proxies.Derive().Deduplication()
@@ -40,12 +40,8 @@ func InitApp() error{
 	log.Println("Number of proxies:", cache.AllProxiesCount)
 
 	log.Println("Now proceeding health check...")
-	if config.Config.HealthCheckTimeout >= 0 {
-		healthcheck.SpeedTimeout = time.Duration(config.Config.HealthCheckTimeout) * time.Second
-		log.Printf("CONF: Health check timeout is set to %d seconds\n", config.Config.HealthCheckTimeout)
-	}
 
-	// healthcheck setttings
+	// healthcheck settings
 	healthcheck.DelayConn = config.Config.HealthCheckConnection
 	healthcheck.DelayTimeout = time.Duration(config.Config.HealthCheckTimeout) * time.Second
 	healthcheck.SpeedConn = config.Config.SpeedConnection
@@ -82,7 +78,7 @@ func getAllProxies() (proxy.ProxyList, error){
 	tempMap := map[string]byte{}
 	tempMapLen:=len(tempMap)
 
-	for _,value:=range config.Config.ServerUrl{
+	for _, value:=range config.Config.ServerUrl{
 		url := "http://127.0.0.1:8080"
 		if value != "http://127.0.0.1:8080"{
 			url = value
