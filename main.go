@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crypto/tls"
 	"flag"
 	"github.com/Sansui233/proxypoolCheck/api"
 	"github.com/Sansui233/proxypoolCheck/config"
