@@ -13,6 +13,12 @@ import (
 var configFilePath = ""
 
 func main()  {
+	http.DefaultClient.Transport = &http.Transport{
+	TLSClientConfig: &tls.Config{
+	InsecureSkipVerify: true,
+	},
+	}
+
 	go func() {
 		http.ListenAndServe("0.0.0.0:6061", nil)
 	}()
