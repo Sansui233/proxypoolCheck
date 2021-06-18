@@ -1,3 +1,8 @@
+2021-06-19(v0.3.1)
+- 忽略source的TLS证书校验 #24
+- http请求添加timeout #24
+- fix: 一个url请求失败后后续全都失败 #24
+
 2021-06-03
 - 添加健康检测并发数设置(v0.3.0)
 - 更新依赖，修复 send on closed channel

@@ -17,7 +17,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-const version = "v0.7.0"
+const version = "v0.7.3"
 
 var router *gin.Engine
 
